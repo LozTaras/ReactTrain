@@ -2,7 +2,25 @@ import React, {Component} from 'react';
 
 class Article extends Component {
     state = {
-        isOpen: true,
+        isOpen: this.props.defaultOpen,
+    }
+
+    componentWillMount() {
+        console.log('---', 'mounting');
+    }
+
+    componentWillReceiveProps(newProps) {
+        console.log('---', 'willReceiveProps');
+
+        if(newProps.defaultOpen !== this.props.defaultOpen) {
+            this.setState({
+                isOpen: newProps.defaultOpen,
+            });
+        }
+    }
+
+    componentWillUpdate() {
+        console.log('---', 'willUpdate');
     }
 
     render() {
