@@ -1,20 +1,23 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 
-class Article extends Component {
+class Article extends PureComponent {
     state = {
         isOpen: this.props.defaultOpen,
+        count: 0
     }
+
+    /*shouldComponentUpdate(nextProps, nextState) {
+        return this.state.isOpen !== nextState.isOpen;
+    }*/
 
     componentWillMount() {
         console.log('---', 'mounting');
     }
 
     componentWillReceiveProps(newProps) {
-        console.log('---', 'willReceiveProps');
-
         if(newProps.defaultOpen !== this.props.defaultOpen) {
             this.setState({
-                isOpen: newProps.defaultOpen,
+                isOpen: newProps.defaultOpen
             });
         }
     }
@@ -29,11 +32,12 @@ class Article extends Component {
 
         return (
             <div>
-                <h2>
-                    {article.title}
+                <h2 onClick = {this.incrementCounter}>                    
+                    {article.title}          
+                    clicked {this.state.count}          
                     <button onClick={this.handleClick}>
                         {this.state.isOpen ? 'close' : 'open'}
-                    </button>
+                    </button>  
                 </h2>
                 {body}
                 <h3>creation date: {(new Date(article.date)).toDateString()}</h3>
@@ -44,7 +48,13 @@ class Article extends Component {
     handleClick = () => {
         console.log('---', 'clicked');
         this.setState({
-            isOpen: !this.state.isOpen,
+            isOpen: !this.state.isOpen
+        });
+    }
+
+    incrementCounter = () => {
+        this.setState({
+            count: this.state.count + 1
         });
     }
 }
